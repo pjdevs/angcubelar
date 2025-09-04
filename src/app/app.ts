@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {MatSidenavModule} from '@angular/material/sidenav';
 import { TimerComponent } from './timer/timer.component';
-import { ButtonControlsComponent } from './timer/button-controls.component';
 import { KeyboardControlsComponent } from './timer/keyboard-controls.component';
 import { TimeHistoryComponent } from './history/history.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TimerComponent, ButtonControlsComponent, KeyboardControlsComponent, TimeHistoryComponent],
+  imports: [RouterOutlet, TimerComponent, KeyboardControlsComponent, TimeHistoryComponent, MatSidenavModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

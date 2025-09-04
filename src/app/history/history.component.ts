@@ -1,40 +1,53 @@
 import { Component, inject, signal, WritableSignal } from '@angular/core';
-import { MatListModule } from '@angular/material/list';
-import { DatePipe } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { LocalStorageService } from '../services/local-storage/local-storage';
-
-// TODO Make a data pipe for cube time
+import { TimerPipe } from "../pipes/timer/timer-pipe";
 
 @Component({
-    imports: [DatePipe, MatListModule, MatIconModule, MatDividerModule, MatButtonModule],
+    imports: [MatTableModule, MatIconModule, MatDividerModule, MatButtonModule, TimerPipe],
     selector: 'app-time-history',
     template: `
     <div class="time-history">
         <h2>History</h2>
-        <mat-list role="list">
-            @for (time of times(); track time.id; let index = $index) {
-                <div class="time-entry">
-                    <mat-list-item role="listitem">{{ index }} | {{ time.time | date:"HH:mm:ss.SSS" }}</mat-list-item>
-                    <button matIconButton aria-label="Delete time" (click)="removeTime(index)">
+        <h2>Count: {{ times().length }}</h2>
+        <h2>Mean: {{ times().length > 0 ? (mean() | timer) : "NA" }}</h2>
+
+        <table mat-table [dataSource]="times()">
+            <ng-container matColumnDef="index">
+                <th mat-header-cell *matHeaderCellDef> Solve </th>
+                <td mat-cell *matCellDef="let i = index;"> {{ times().length - i - 1 }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="time">
+                <th mat-header-cell *matHeaderCellDef> Time </th>
+                <td mat-cell *matCellDef="let element;"> {{ element.time | timer }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element; let i = index;">
+                    <button matIconButton aria-label="Delete time" (click)="removeTime(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
-                </div>
-            }
-        </mat-list>
-    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div> 
   `,
     styles: `
-    .time-history {
-        padding: 4px;
-        background: rgb(240, 240, 240)
-    }
-
     .time-entry {
         display: flex;
         flex-direction: row;
+    }
+
+    table {
+        background: none;
     }
   `
 })
@@ -42,9 +55,29 @@ export class TimeHistoryComponent {
     private localStorageService = inject(LocalStorageService);
 
     protected readonly times: WritableSignal<TimeEntry[]> = signal([]);
-    private nextId = 0;
+    protected readonly mean: WritableSignal<number> = signal(0.0);
+
+    protected readonly displayedColumns = ['index', 'time', 'delete']
 
     public constructor() {
+        this.loadTimes();
+        this.computeMeans();
+    }
+
+    public addTime(time: number) {
+        const newTime = new TimeEntry(time, new Date());
+        this.times.update(timesArray => [newTime, ...timesArray]);
+        this.saveTimes();
+        this.computeMeans();
+    }
+
+    public removeTime(index: number) {
+        this.times.update(timesArray => timesArray.slice(0, index).concat(timesArray.slice(index + 1)));
+        this.saveTimes();
+        this.computeMeans();
+    }
+
+    private loadTimes() {
         const jsonTimes = this.localStorageService.get(TIMES_STORAGE_KEY);
 
         if (jsonTimes !== null) {
@@ -53,15 +86,10 @@ export class TimeHistoryComponent {
         }
     }
 
-    public addTime(time: number) {
-        this.times.update(timesArray => [...timesArray, new TimeEntry(this.nextId, time)]);
-        this.nextId++;
-        this.saveTimes();
-    }
-
-    public removeTime(index: number) {
-        this.times.update(timesArray => timesArray.slice(0, index).concat(timesArray.slice(index + 1)));
-        this.saveTimes();
+    private computeMeans() {
+        const timeSum = this.times().reduce((sum, timeEntry) => sum + timeEntry.time, 0.0);
+        const mean = timeSum / this.times().length; 
+        this.mean.set(mean);
     }
 
     private saveTimes() {
@@ -71,12 +99,12 @@ export class TimeHistoryComponent {
 }
 
 class TimeEntry {
-    public id: number;
     public time: number;
+    public date: Date;
 
-    public constructor(id: number, time: number) {
-        this.id = id;
+    public constructor(time: number, date: Date) {
         this.time = time;
+        this.date = date;
     }
 }
 

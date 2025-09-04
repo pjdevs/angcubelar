@@ -1,15 +1,15 @@
-import { Component, computed, output, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { Component, output, signal } from '@angular/core';
+import { TimerPipe } from "../pipes/timer/timer-pipe";
 
 @Component({
-  imports: [DatePipe],
+  imports: [TimerPipe],
   selector: 'app-timer',
   template: `
-    <p> {{ displayElaspedTime() | date:"HH:mm:ss.SSS" }} </p>
+    <p> {{ elapsedTime() | timer }} </p>
   `,
   styles: `
   p {
-    font-size: 4em;
+    font-size: 6em;
   }
   `
 })
@@ -17,9 +17,9 @@ export class TimerComponent {
   public readonly isStarted = signal(false);
   public readonly timeDone = output<number>();
 
-  protected readonly displayElaspedTime = computed(() => this.elapsedTime() - 3600000.0);
-  private readonly elapsedTime = signal(0.0);
+  protected readonly elapsedTime = signal(0.0);
   private intervalHandle = 0;
+  private startTime = 0.0;
 
   public toggle() {
     if (this.isStarted()) {
@@ -35,8 +35,10 @@ export class TimerComponent {
     }
 
     clearInterval(this.intervalHandle);
+
+    this.setElapsedTimeSinceStartTime();
     this.isStarted.set(false);
-    this.timeDone.emit(this.displayElaspedTime());
+    this.timeDone.emit(this.elapsedTime());
   }
 
   public start() {
@@ -44,13 +46,16 @@ export class TimerComponent {
       return;
     }
 
-    const startTime = Date.now();
-    this.intervalHandle = setInterval(
-      () => {
-        this.elapsedTime.set(Date.now() - startTime);
-      },
-      10
-    );
+    this.startTime = Date.now();
+    this.intervalHandle = setInterval(() => this.setElapsedTimeSinceStartTime(), 10);
     this.isStarted.set(true);
+  }
+
+  private setElapsedTimeSinceStartTime() {
+    this.elapsedTime.set(this.getElaspedTimeSinceStartTime());
+  }
+
+  private getElaspedTimeSinceStartTime() : number {
+    return Date.now() - this.startTime;
   }
 }
