@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   imports: [DatePipe],
-  selector: 'timer',
+  selector: 'app-timer',
   template: `
     <p> {{ displayElaspedTime() | date:"HH:mm:ss.SSS" }} </p>
   `,

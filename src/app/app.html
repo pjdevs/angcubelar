@@ -15,15 +15,15 @@
 <main class="main">
   <div class="content">
     <div class="timer-widget">
-      <timer id="buttontimer" (timeDone)="history.addTime($event)" #buttontimer></timer>
-      <button-controls [timer]="buttontimer"></button-controls>
+      <app-timer id="buttontimer" (timeDone)="history.addTime($event)" #buttontimer></app-timer>
+      <app-button-controls [timer]="buttontimer"></app-button-controls>
 
-      <timer id="kbtimer" (timeDone)="history.addTime($event)" #kbtimer></timer>
+      <app-timer id="kbtimer" (timeDone)="history.addTime($event)" #kbtimer></app-timer>
       <p>(use <b>Space</b> for this timer)</p>
-      <keyboard-controls [timer]="kbtimer"></keyboard-controls>
+      <app-keyboard-controls [timer]="kbtimer"></app-keyboard-controls>
 
       <br/>
-      <time-history #history></time-history>
+      <app-time-history #history></app-time-history>
     </div>
   </div>
 </main>

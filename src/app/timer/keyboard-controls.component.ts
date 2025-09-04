@@ -2,7 +2,7 @@ import { Component, HostListener, Input } from '@angular/core';
 import { TimerComponent } from "./timer.component";
 
 @Component({
-  selector: 'keyboard-controls',
+  selector: 'app-keyboard-controls',
   template: ``
 })
 export class KeyboardControlsComponent {

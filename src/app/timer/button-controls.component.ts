@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     imports: [MatIconModule, MatDividerModule, MatButtonModule],
-    selector: 'button-controls',
+    selector: 'app-button-controls',
     template: `
       <button matFab extended (click)="timer.toggle()">
         <mat-icon>timer</mat-icon>
