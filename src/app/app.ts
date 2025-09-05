@@ -4,10 +4,11 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { TimerComponent } from './timer/timer.component';
 import { KeyboardControlsComponent } from './timer/keyboard-controls.component';
 import { TimeHistoryComponent } from './history/history.component';
+import { DailyScrambleComponent } from "./daily/daily-scramble.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TimerComponent, KeyboardControlsComponent, TimeHistoryComponent, MatSidenavModule],
+  imports: [RouterOutlet, TimerComponent, KeyboardControlsComponent, TimeHistoryComponent, MatSidenavModule, DailyScrambleComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

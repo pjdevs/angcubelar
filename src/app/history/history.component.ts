@@ -3,7 +3,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
-import { LocalStorageService } from '../services/local-storage/local-storage';
+import { LocalStorageService } from '../services/local-storage/local-storage.service';
 import { TimerPipe } from "../pipes/timer/timer-pipe";
 
 @Component({
