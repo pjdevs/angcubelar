@@ -1,17 +1,14 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import { TimerComponent } from './timer/timer.component';
-import { KeyboardControlsComponent } from './timer/keyboard-controls.component';
-import { TimeHistoryComponent } from './history/history.component';
-import { DailyScrambleComponent } from "./daily/daily-scramble.component";
+import { Component } from '@angular/core';
+import { RouterOutlet, RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TimerComponent, KeyboardControlsComponent, TimeHistoryComponent, MatSidenavModule, DailyScrambleComponent],
+  imports: [RouterOutlet, RouterLink, MatButtonModule, MatIconModule, MatDividerModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('Angcubelar');
 }

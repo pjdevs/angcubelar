@@ -1,0 +1,29 @@
+:host {
+    display: flex;
+    height: 100%;   /* take full viewport height */
+    width: 100%;    /* take full viewport width */
+}
+
+.side {
+    width: 400px;
+    padding: 1rem;
+}
+
+.content {
+    flex-grow: 1;        /* take remaining width */
+    padding: 1rem;
+}
+
+/* Center in both containers */
+.side, .content {
+    display: flex;
+    align-items: center;   /* horizontal center */
+    justify-content: center; /* vertical center */
+    text-align: center;    /* if you want text centered as well */
+    flex-direction: column;
+}
+
+.history-section {
+    width: 100%;
+    height: 100%;
+}

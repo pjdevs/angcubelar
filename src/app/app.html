@@ -1,59 +1,8 @@
-<style>
-  main {
-    display: flex;
-    width: 100%;
-    height: 100%;
-  }
-
-  .layout {
-    display: flex;
-    height: 100%;   /* take full viewport height */
-    width: 100%;    /* take full viewport width */
-  }
-
-  .side {
-    width: 400px;
-    background: #f5f5f5;
-    padding: 1rem;
-  }
-
-  .content {
-    flex-grow: 1;        /* take remaining width */
-    padding: 1rem;
-  }
-
-  /* Center in both containers */
-  .side, .content {
-    display: flex;
-    align-items: center;   /* horizontal center */
-    justify-content: center; /* vertical center */
-    text-align: center;    /* if you want text centered as well */
-    flex-direction: column;
-  }
-
-  .history-section {
-    width: 100%;
-    height: 100%;
-  }
-</style>
-
+<nav>
+  <a matButton routerLink="/">Practice</a>
+  <mat-divider [vertical]="true"></mat-divider>
+  <a matButton routerLink="/daily">Daily</a>
+</nav>
 <main>
-  <div class="layout">
-    <div class="side">
-      <div class="history-section">
-        <app-time-history #history></app-time-history>
-      </div>
-    </div>
-    <div class="content">
-      <div class="daily-widget">
-        <app-daily-scramble></app-daily-scramble>
-      </div>
-      <div class="timer-widget">
-        <app-timer id="kbtimer" (timeDone)="history.addTime($event)" #kbtimer></app-timer>
-        <app-keyboard-controls [timer]="kbtimer"></app-keyboard-controls>
-      </div>
-    </div>
-  </div>
+  <router-outlet />
 </main>
-
-<router-outlet />

@@ -1,0 +1,11 @@
+<div class="side">
+    <div class="history-section">
+        <app-time-history #history></app-time-history>
+    </div>
+</div>
+<div class="content">
+    <div class="timer-widget">
+        <app-timer id="kbtimer" (timeDone)="history.addTime($event)" #kbtimer></app-timer>
+        <app-keyboard-controls [timer]="kbtimer"></app-keyboard-controls>
+    </div>
+</div>
