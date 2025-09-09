@@ -4,10 +4,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { LocalStorageService } from '../services/local-storage/local-storage.service';
-import { TimerPipe } from "../pipes/timer/timer-pipe";
+import { TimePipe } from "../pipes/timer/timer-pipe";
 
 @Component({
-    imports: [MatTableModule, MatIconModule, MatDividerModule, MatButtonModule, TimerPipe],
+    imports: [MatTableModule, MatIconModule, MatDividerModule, MatButtonModule, TimePipe],
     selector: 'app-time-history',
     template: `
     <div class="time-history">

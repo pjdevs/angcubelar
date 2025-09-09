@@ -1,8 +1,8 @@
 import { Component, output, signal } from '@angular/core';
-import { TimerPipe } from "../pipes/timer/timer-pipe";
+import { TimePipe } from "../pipes/timer/timer-pipe";
 
 @Component({
-  imports: [TimerPipe],
+  imports: [TimePipe],
   selector: 'app-timer',
   template: `
     <p> {{ elapsedTime() | timer }} </p>
@@ -16,6 +16,7 @@ import { TimerPipe } from "../pipes/timer/timer-pipe";
 export class TimerComponent {
   public readonly isStarted = signal(false);
   public readonly timeDone = output<number>();
+  public readonly timeStarted = output<void>();
 
   protected readonly elapsedTime = signal(0.0);
   private intervalHandle = 0;
@@ -49,6 +50,7 @@ export class TimerComponent {
     this.startTime = Date.now();
     this.intervalHandle = setInterval(() => this.setElapsedTimeSinceStartTime(), 10);
     this.isStarted.set(true);
+    this.timeStarted.emit();
   }
 
   private setElapsedTimeSinceStartTime() {

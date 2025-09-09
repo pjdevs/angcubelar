@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { PracticePage } from './practice-page/practice-page.component';
-import { DailyPage } from './daily-page/daily-page';
+import { DailyPage } from './daily-page/daily-page.component';
 
 export const routes: Routes = [
     {
